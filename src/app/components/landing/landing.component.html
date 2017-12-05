@@ -1,0 +1,163 @@
+<div class="container">
+  <div class="text-center">
+    <h3>CREAR UNA CUENTA</h3><br>
+  </div>
+  <form #clienteForm="ngForm" novalidate>
+    <div class="card-group">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Datos del usuario</h4>
+
+          <div class="form-group">
+            <label for="correo" class="col-form-label font-weight-bold">Correo</label>
+            <input type="email" class="form-control" id="correo" placeholder="correo"
+                   [(ngModel)]="cliente.p_correo_electronico"
+                   pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,4})$"
+                   name="correo" #correo="ngModel" required>
+            <div [hidden]="correo.valid || correo.pristine" class="alert alert-danger">
+              <div [hidden]="!correo.hasError('required')">El correo de usuario es requerido.</div>
+              <div [hidden]="!correo.hasError('pattern')">No es un correo valido.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nombre" class="col-form-label font-weight-bold">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre"
+                   [(ngModel)]="cliente.p_nombre_usuario" name="nombre" #nombre="ngModel" required>
+            <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
+              El nombre de usuario es requerido.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="apellidos" class="col-form-label font-weight-bold">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" placeholder="Apellidos"
+                   [(ngModel)]="cliente.p_apellidos" name="apellidos" #apellidos="ngModel" required>
+            <div [hidden]="apellidos.valid || apellidos.pristine" class="alert alert-danger">
+              Los appellidos del usuario son requeridos.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="telefono" class="col-form-label font-weight-bold">Telefono</label>
+            <input type="text" class="form-control" id="telefono" placeholder="Telefono"
+                   [(ngModel)]="cliente.p_telefono" name="telefono" #telefono="ngModel" required>
+            <div [hidden]="telefono.valid || telefono.pristine" class="alert alert-danger">
+              El telefono de usuario es requerido.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="web" class="col-form-label font-weight-bold">Página WEB</label>
+            <input type="text" class="form-control" id="web" placeholder="Página WEB"
+                   [(ngModel)]="cliente.p_web" name="web" #web="ngModel" required>
+            <div [hidden]="web.valid || web.pristine" class="alert alert-danger">
+              El telefono de usuario es requerido.
+            </div>
+          </div>
+
+          <div class="custom-controls-stacked d-block my-3">
+            <label class="custom-control custom-radio">
+              <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" required>
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Usuario Final</span>
+            </label>
+            <label class="custom-control custom-radio">
+              <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" required>
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Broker</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Datos Fiscales</h4>
+          <div class="form-group">
+            <label for="rfc" class="col-form-label font-weight-bold">RFC</label>
+            <input type="text" class="form-control" id="rfc" placeholder="RFC"
+                   pattern="^[A-Z0-9_-]+$"
+                   [(ngModel)]="cliente.p_rfc" name="rfc" #rfc="ngModel" required>
+            <div [hidden]="rfc.valid || rfc.pristine" class="alert alert-danger">
+              <div [hidden]="!rfc.hasError('required')">El RFC es requerido.</div>
+              <div [hidden]="!rfc.hasError('pattern')">El RFC no es valido.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="razon" class="col-form-label font-weight-bold">Razón social</label>
+            <input type="text" class="form-control" id="razon" placeholder="Razón social"
+                   [(ngModel)]="cliente.p_razon_social" name="razon" #razon="ngModel" required>
+            <div [hidden]="razon.valid || razon.pristine" class="alert alert-danger">
+              El nombre del clientes es requerido.
+            </div>
+          </div>
+
+          <fieldset class="form-group">
+            <h4 class="card-title">Datos Del Servicio</h4>
+            <div class="row">
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Emisión</span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Generacion PDF</span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Validación CFDI</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <select class="form-control" id="exampleFormControlSelect1">
+              <option>Timbre Puro</option>
+              <option>Sellado + Timbre</option>
+              <option>Construcción + Sello + Timbre</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="transacciones" class="col-form-label font-weight-bold">Transacciones mensuales</label>
+            <input type="text" class="form-control" id="transacciones" placeholder="Transacciones mensuales"
+                   [(ngModel)]="cliente.p_transacciones" name="transacciones" #transacciones="ngModel" required>
+            <div [hidden]="transacciones.valid || transacciones.pristine" class="alert alert-danger">
+              Las transacciones son requeridas.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border: 0">
+      <div class="card-body">
+        <div class="form-group" [hidden]="!onProgress">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" [attr.aria-valuenow]="completado"
+                 aria-valuemin="0" aria-valuemax="100" [style.width.%]="completado"> {{ completado }} %
+            </div>
+          </div>
+          <p class="text-info">{{ message }}</p>
+        </div>
+
+        <button class="btn btn-masnegocio btn-sm float-right" [disabled]="!clienteForm.form.valid" (click)="crearApp()">Crear Aplicativo</button>
+      </div>
+    </div>
+
+    <h6 class="text-danger">*Todos los campos son obligatorios</h6>
+  </form>
+</div>

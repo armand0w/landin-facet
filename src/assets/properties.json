@@ -1,0 +1,5 @@
+{
+  "connection_reference" : "cnnFaceTimbreSemillaV20",
+  "clave_producto" : "MN-FACE-TIMBRE-V20",
+  "url-services": "http://127.0.0.1:8080/mn-face-timbre-services/landing/"
+}

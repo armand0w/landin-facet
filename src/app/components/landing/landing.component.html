@@ -9,6 +9,42 @@
           <h4 class="card-title">Datos del usuario</h4>
 
           <div class="form-group">
+            <label for="clave" class="col-form-label font-weight-bold">Clave de Usuario</label>
+            <input type="text" class="form-control" id="clave" placeholder="Clave de Usuario"
+                   [(ngModel)]="cliente.p_clave_usuario" name="clave" #clave="ngModel" required>
+            <div [hidden]="clave.valid || clave.pristine" class="alert alert-danger">
+              La clave de usuario es requerida.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nombre" class="col-form-label font-weight-bold">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre"
+                   [(ngModel)]="cliente.p_nombre" name="nombre" #nombre="ngModel" required>
+            <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
+              El nombre de usuario es requerido.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="apellidop" class="col-form-label font-weight-bold">Apellido Paterno</label>
+            <input type="text" class="form-control" id="apellidop" placeholder="Apellido Paterno"
+                   [(ngModel)]="cliente.p_primer_apellido" name="apellidop" #apellidop="ngModel" required>
+            <div [hidden]="apellidop.valid || apellidop.pristine" class="alert alert-danger">
+              Los appellidos del usuario son requeridos.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="apellidom" class="col-form-label font-weight-bold">Apellido Materno</label>
+            <input type="text" class="form-control" id="apellidom" placeholder="Apellido Materno"
+                   [(ngModel)]="cliente.p_segundo_apellido" name="apellidom" #apellidom="ngModel" required>
+            <div [hidden]="apellidom.valid || apellidom.pristine" class="alert alert-danger">
+              Los appellidos del usuario son requeridos.
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="correo" class="col-form-label font-weight-bold">Correo</label>
             <input type="email" class="form-control" id="correo" placeholder="correo"
                    [(ngModel)]="cliente.p_correo_electronico"
@@ -21,24 +57,6 @@
           </div>
 
           <div class="form-group">
-            <label for="nombre" class="col-form-label font-weight-bold">Nombre</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Nombre"
-                   [(ngModel)]="cliente.p_nombre_usuario" name="nombre" #nombre="ngModel" required>
-            <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
-              El nombre de usuario es requerido.
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="apellidos" class="col-form-label font-weight-bold">Apellidos</label>
-            <input type="text" class="form-control" id="apellidos" placeholder="Apellidos"
-                   [(ngModel)]="cliente.p_apellidos" name="apellidos" #apellidos="ngModel" required>
-            <div [hidden]="apellidos.valid || apellidos.pristine" class="alert alert-danger">
-              Los appellidos del usuario son requeridos.
-            </div>
-          </div>
-
-          <div class="form-group">
             <label for="telefono" class="col-form-label font-weight-bold">Telefono</label>
             <input type="text" class="form-control" id="telefono" placeholder="Telefono"
                    [(ngModel)]="cliente.p_telefono" name="telefono" #telefono="ngModel" required>
@@ -47,23 +65,23 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <!--<div class="form-group">
             <label for="web" class="col-form-label font-weight-bold">Página WEB</label>
             <input type="text" class="form-control" id="web" placeholder="Página WEB"
                    [(ngModel)]="cliente.p_web" name="web" #web="ngModel" required>
             <div [hidden]="web.valid || web.pristine" class="alert alert-danger">
               El telefono de usuario es requerido.
             </div>
-          </div>
+          </div>-->
 
           <div class="custom-controls-stacked d-block my-3">
             <label class="custom-control custom-radio">
-              <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" required>
+              <input id="radioStacked1" name="c_tipo" type="radio" [(ngModel)]="cliente.c_tipo" #c_tipo="ngModel" class="custom-control-input" value="S" required>
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">Usuario Final</span>
             </label>
             <label class="custom-control custom-radio">
-              <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" required>
+              <input id="radioStacked2" name="c_tipo" type="radio" [(ngModel)]="cliente.c_tipo" #c_tipo="ngModel" class="custom-control-input" value="N" required>
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">Broker</span>
             </label>
@@ -100,21 +118,21 @@
               <div class="col-sm-10">
                 <div class="form-check">
                   <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.i_tipo_servicio_01" name="tiposervicio01" #tiposervicio01="ngModel">
                     <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Emisión</span>
+                    <span class="custom-control-description">Emisión CFDI</span>
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.i_tipo_servicio_02" name="tiposervicio02" #tiposervicio02="ngModel">
                     <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Generacion PDF</span>
+                    <span class="custom-control-description">Cancelación CFDI</span>
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.i_tipo_servicio_03" name="tiposervicio03" #tiposervicio03="ngModel">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Validación CFDI</span>
                   </label>
@@ -124,10 +142,10 @@
           </fieldset>
 
           <div class="form-group">
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option>Timbre Puro</option>
-              <option>Sellado + Timbre</option>
-              <option>Construcción + Sello + Timbre</option>
+            <select name="tipotimbre" #tipotimbre="ngModel" [(ngModel)]="cliente.i_tipo_timbre" class="form-control">
+              <option value="1">Timbre Puro</option>
+              <option value="2">Sellado + Timbre</option>
+              <option value="3">Construcción + Sello + Timbre</option>
             </select>
           </div>
 

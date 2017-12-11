@@ -13,7 +13,6 @@ export class LandingComponent implements OnInit {
   public completado: number;
   public onProgress: boolean;
   public message: string;
-  public url: string;
 
   public urLanding: string;
   public cliente: any;
@@ -28,10 +27,26 @@ export class LandingComponent implements OnInit {
     this._aplicativoService.properties()
       .then( ( prop ) => {
         this.urLanding = prop['url-services'];
-
+        this.cliente['i_tipo_timbre'] = 1;
+        this.cliente['connections'] = {
+          references: [
+            {
+              connection_reference: prop['connection_reference'],
+              connection_id: prop['connection_reference']
+            }
+          ]
+        };
         this.eventos = [
+          /*{
+            url: this.urLanding + 'test',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: { message: 'Test de servicios.' }
+          },*/
           {
-            url: this.urLanding + 'acl',
+            url: this.urLanding + 'preguntaracl',
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=UTF-8'
@@ -45,6 +60,14 @@ export class LandingComponent implements OnInit {
               'Content-Type': 'application/json;charset=UTF-8'
             },
             body: {  message: 'Creando usuario Broker.' }
+          },
+          {
+            url: this.urLanding + 'guardaracl',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: { message: 'Obteniendo credenciales ACL.' }
           },
           {
             url: this.urLanding + 'paquete',
@@ -90,6 +113,7 @@ export class LandingComponent implements OnInit {
     const modalRef = this._modalService.open( ModalComponent, { size: 'lg'} );
 
     if ( response['continue'] ) {
+      this.completado = 100;
       modalRef.componentInstance.inputs = {
         title: '¡Aviso!',
         typeClass: 'modal-header bg-success text-white',
@@ -104,7 +128,7 @@ export class LandingComponent implements OnInit {
     }
 
     modalRef.result.then((reason) => {
-      // location.reload();
+      location.reload();
     });
   }
 
@@ -127,16 +151,20 @@ export class LandingComponent implements OnInit {
               } else {
                 continueLoop = false;
               }
+
+              /*if ( data && data['response_type'] === 'UPDATE_PARAMS' ) {
+                Object.keys( data ).map(key => {
+                  console.log(key);
+                  if ( key !== 'response_type' && key !== 'type' && key !== 'text' ) {
+                    this.eventos[cont + 1][key] = data[key];
+                  }
+                });
+              }*/
             })
             .catch( err => {
-              if ( err.status === 0 || err.status === 502 ) {
-                this.message = 'Schema creado.';
-                this.completado += Math.floor( 100 / this.eventos.length );
-                continueLoop = true;
-              } else {
-                continueLoop = false;
-                reject( err );
-              }
+              continueLoop = false;
+              console.error( err );
+              reject(err);
             })
             .then( () => {
               if ( continueLoop && cont !== this.eventos.length - 1 ) {

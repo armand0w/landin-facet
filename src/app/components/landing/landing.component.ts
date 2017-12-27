@@ -101,12 +101,22 @@ export class LandingComponent implements OnInit {
   }
 
   public crearApp(): void {
-    this.onProgress = true;
+    if ( this.cliente['b_emision'] || this.cliente['b_cancelacion'] || this.cliente['b_validacion'] ) {
+      this.onProgress = true;
+      this.completado = 0;
 
-    this.loopEvents()
-      .then( (res) => {
-        this.open( res );
-      });
+      this.loopEvents()
+        .then( (res) => {
+          this.open( res );
+        });
+    } else {
+      const modalError = this._modalService.open( ModalComponent, { size: 'lg'} );
+      modalError.componentInstance.inputs = {
+        title: '¡WARNING!',
+        typeClass: 'modal-header bg-warning text-white',
+        textContent: 'Falta asignar tipo de servicios.'
+      };
+    }
   }
 
   public open( response: any ): void {
@@ -128,7 +138,9 @@ export class LandingComponent implements OnInit {
     }
 
     modalRef.result.then((reason) => {
-      location.reload();
+      if ( this.completado === 100 ) {
+        location.reload();
+      }
     });
   }
 

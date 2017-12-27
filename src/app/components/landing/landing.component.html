@@ -29,7 +29,7 @@
           <div class="form-group">
             <label for="apellidop" class="col-form-label font-weight-bold">Apellido Paterno</label>
             <input type="text" class="form-control" id="apellidop" placeholder="Apellido Paterno"
-                   [(ngModel)]="cliente.p_primer_apellido" name="apellidop" #apellidop="ngModel" required>
+                   [(ngModel)]="cliente.v_primer_apellido" name="apellidop" #apellidop="ngModel" required>
             <div [hidden]="apellidop.valid || apellidop.pristine" class="alert alert-danger">
               Los appellidos del usuario son requeridos.
             </div>
@@ -38,7 +38,7 @@
           <div class="form-group">
             <label for="apellidom" class="col-form-label font-weight-bold">Apellido Materno</label>
             <input type="text" class="form-control" id="apellidom" placeholder="Apellido Materno"
-                   [(ngModel)]="cliente.p_segundo_apellido" name="apellidom" #apellidom="ngModel" required>
+                   [(ngModel)]="cliente.v_segundo_apellido" name="apellidom" #apellidom="ngModel" required>
             <div [hidden]="apellidom.valid || apellidom.pristine" class="alert alert-danger">
               Los appellidos del usuario son requeridos.
             </div>
@@ -76,12 +76,12 @@
 
           <div class="custom-controls-stacked d-block my-3">
             <label class="custom-control custom-radio">
-              <input id="radioStacked1" name="c_tipo" type="radio" [(ngModel)]="cliente.c_tipo" #c_tipo="ngModel" class="custom-control-input" value="S" required>
+              <input name="tipo" type="radio" [(ngModel)]="cliente.c_usuario_final" #c_tipo="ngModel" class="custom-control-input" value="S" required>
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">Usuario Final</span>
             </label>
             <label class="custom-control custom-radio">
-              <input id="radioStacked2" name="c_tipo" type="radio" [(ngModel)]="cliente.c_tipo" #c_tipo="ngModel" class="custom-control-input" value="N" required>
+              <input name="tipo" type="radio" [(ngModel)]="cliente.c_usuario_final" #c_tipo="ngModel" class="custom-control-input" value="N" required checked="checked">
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">Broker</span>
             </label>
@@ -118,21 +118,21 @@
               <div class="col-sm-10">
                 <div class="form-check">
                   <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.i_tipo_servicio_01" name="tiposervicio01" #tiposervicio01="ngModel">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.b_emision" name="tiposervicio01" #tiposervicio01="ngModel">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Emisión CFDI</span>
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.i_tipo_servicio_02" name="tiposervicio02" #tiposervicio02="ngModel">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.b_cancelacion" name="tiposervicio02" #tiposervicio02="ngModel">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Cancelación CFDI</span>
                   </label>
                 </div>
                 <div class="form-check">
                   <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.i_tipo_servicio_03" name="tiposervicio03" #tiposervicio03="ngModel">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.b_validacion" name="tiposervicio03" #tiposervicio03="ngModel">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Validación CFDI</span>
                   </label>
@@ -142,7 +142,7 @@
           </fieldset>
 
           <div class="form-group">
-            <select name="tipotimbre" #tipotimbre="ngModel" [(ngModel)]="cliente.i_tipo_timbre" class="form-control">
+            <select name="tipotimbre" #tipotimbre="ngModel" [(ngModel)]="cliente.i_tipo_timbre" class="form-control" required>
               <option value="1">Timbre Puro</option>
               <option value="2">Sellado + Timbre</option>
               <option value="3">Construcción + Sello + Timbre</option>

@@ -1,5 +1,67 @@
 <div class="container">
-  <p>
-    manifest works!
-  </p>
+  <form #clienteForm="ngForm" novalidate>
+    <div class="form-group">
+      <label for="contrato-text" class="col-form-label font-weight-bold">Contrato</label>
+      <textarea class="form-control" id="contrato-text" rows="10" disabled style="resize: none;"></textarea>
+    </div>
+    <div class="card-group">
+      <div class="card">
+        <div class="card-body">
+
+          <div class="form-group">
+            <label for="cert" class="col-form-label font-weight-bold">Certificado de la FIEL (.cer)</label>
+            <input type="file" class="form-control-file" id="cert"
+                   [(ngModel)]="contrato.p_cer" name="cert" #cert="ngModel">
+          </div>
+
+          <div class="form-group">
+            <label for="key" class="col-form-label font-weight-bold">Llave privada de la FIEL (.key)</label>
+            <input type="file" class="form-control-file" id="key"
+                   [(ngModel)]="contrato.p_key" name="key" #key="ngModel">
+          </div>
+
+          <div class="form-group">
+            <label for="passwd" class="col-form-label font-weight-bold">Contraseña de la FIEL</label>
+            <input type="text" class="form-control" id="passwd" placeholder="Contraseñña"
+                   [(ngModel)]="contrato.p_passwd" name="passwd" #passwd="ngModel" required>
+            <div [hidden]="passwd.valid || passwd.pristine" class="alert alert-danger">
+              El password es requerido.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="correo" class="col-form-label font-weight-bold">Enviar copia a</label>
+            <input type="email" class="form-control" id="correo" placeholder="Correo"
+                   [(ngModel)]="contrato.p_correo_electronico"
+                   pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,4})$"
+                   name="correo" #correo="ngModel">
+            <div [hidden]="correo.valid || correo.pristine" class="alert alert-danger">
+              <div [hidden]="!correo.hasError('pattern')">No es un correo valido.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border: 0">
+      <div class="card-body">
+        <div class="form-group" [hidden]="!onProgress">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" [attr.aria-valuenow]="completado"
+                 aria-valuemin="0" aria-valuemax="100" [style.width.%]="completado"> {{ completado }} %
+            </div>
+          </div>
+          <p class="text-info">{{ message }}</p>
+        </div>
+
+        <button class="btn btn-masnegocio btn-sm float-right" [disabled]="!clienteForm.form.valid" (click)="firmarContrato()">Firmar</button>
+      </div>
+    </div>
+
+    <h6 class="text-danger">*Todos los campos son obligatorios</h6>
+  </form>
 </div>

@@ -10,6 +10,7 @@
 
 # IDEs and editors
 /.idea
+landing-facetimbre.iml
 .project
 .classpath
 .c9/

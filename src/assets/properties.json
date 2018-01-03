@@ -1,5 +1,8 @@
 {
   "connection_reference" : "cnnFaceTimbreSemillaV20",
   "clave_producto" : "MN-FACE-TIMBRE-V20",
-  "url-services": "http://127.0.0.1:8080/mn-face-timbre-services/landing/"
+  "url-services": "http://127.0.0.1:8080/mn-face-timbre-services/landing/",
+  "url-services-manifest": "http://127.0.0.1:8080/mn-face-timbre-services/contrato/",
+  "url-radt-extractor": "http://des.core.masnegocio.com/mn-radt-engine/services/integration",
+  "idExtractor": "extDatosContratoFaceTimbreSemillaV20"
 }

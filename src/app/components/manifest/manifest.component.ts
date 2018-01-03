@@ -11,16 +11,19 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class ManifestComponent implements OnInit {
   public nId: number;
+  public idExt: string;
   public completado: number;
   public onProgress: boolean;
   public message: string;
+  public strContrato: object;
 
   public urLanding: string;
+  public urlRadtExt: string;
   public contrato: any;
   public eventos: object [];
 
   constructor( private activatedRoute: ActivatedRoute,
-               protected _aplicativoService: AplicativoService,
+               private _aplicativoService: AplicativoService,
                private _modalService: NgbModal ) {
     this.activatedRoute.params.subscribe( params => {
       const hexid = params['id'];
@@ -35,9 +38,12 @@ export class ManifestComponent implements OnInit {
 
   ngOnInit() {
     this.contrato = {};
+    this.strContrato = {};
     this._aplicativoService.properties()
       .then( ( prop ) => {
-        this.urLanding = prop['url-services'];
+        this.urLanding = prop['url-services-manifest'];
+        this.urlRadtExt = prop['url-radt-extractor'];
+        this.idExt = prop['idExtractor'];
         this.contrato['connections'] = {
           references: [
             {
@@ -48,48 +54,72 @@ export class ManifestComponent implements OnInit {
         };
         this.eventos = [
           {
-            url: this.urLanding + 'test',
+            url: this.urLanding + 'finalizar',
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=UTF-8'
             },
             body: { message: 'Test de servicios.' }
-          }/*,
-          {
-            url: this.urLanding + 'preguntaracl',
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: { message: 'Obteniendo credenciales ACL.' }
-          }*/
+          }
         ];
+      })
+      .then(() => {
+        this._aplicativoService.consumirPromesa({
+          url: this.urlRadtExt,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          },
+          body: {
+            item_id: this.nId,
+            id_extractor: this.idExt,
+            connections: this.contrato['connections']
+          }
+        }).then( (data) => {
+          this.strContrato = data['data'];
+        });
       });
 
     this.completado = 0;
     this.onProgress = false;
   }
 
-  public onChange(e) {
-    console.log(e);
+  public onChange(e, pair) {
+    const reader = new FileReader();
+    if ( e.target.files && e.target.files.length > 0 ) {
+      const aux = e.target.files[0];
+      let file = {};
+      reader.readAsDataURL(aux);
+      reader.onload = () => {
+        file = {
+          filename: aux.name,
+          filetype: aux.type,
+          value: reader.result.split(',')[1]
+        };
+        this.contrato[pair] = file;
+      };
+      reader.onerror = (err) => {
+        console.error(err);
+      };
+    }
   }
 
   public firmarContrato(): void {
-    console.log( this.contrato );
-    if ( this.contrato['b_cer'] || this.contrato['p_key'] ) {
+    if ( this.contrato['p_cer'] && this.contrato['p_key'] ) {
       this.onProgress = true;
       this.completado = 0;
+      this.contrato['usuarios'] = this.strContrato;
 
       this.loopEvents()
         .then( (res) => {
           this.open( res );
         });
     } else {
-      const modalError = this._modalService.open( ModalComponent, { size: 'lg'} );
+      const modalError = this._modalService.open( ModalComponent, { size: 'sm'} );
       modalError.componentInstance.inputs = {
         title: '¡WARNING!',
-        typeClass: 'modal-header bg-warning text-white',
-        textContent: 'Falta arcivo .cer ó .key.'
+        typeClass: 'modal-header bg-danger text-white',
+        textContent: '<strong>Falta archivo .cer ó .key.</strong>'
       };
     }
   }

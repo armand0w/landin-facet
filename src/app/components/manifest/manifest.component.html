@@ -2,7 +2,7 @@
   <form #clienteForm="ngForm" novalidate>
     <div class="form-group">
       <label for="contrato-text" class="col-form-label font-weight-bold">Contrato</label>
-      <textarea class="form-control" id="contrato-text" rows="10" disabled style="resize: none;"></textarea>
+      <textarea class="form-control" id="contrato-text" rows="10" disabled style="resize: none;">{{strContrato | json: 4}}</textarea>
     </div>
     <div class="card-group">
       <div class="card">
@@ -10,19 +10,17 @@
 
           <div class="form-group">
             <label for="cert" class="col-form-label font-weight-bold">Certificado de la FIEL (.cer)</label>
-            <input type="file" class="form-control-file" id="cert"
-                   [(ngModel)]="contrato.p_cer" name="cert" #cert="ngModel">
+            <input type="file" class="form-control-file" id="cert" accept="application/x-x509-ca-cert" (change)="onChange($event, 'p_cer')">
           </div>
 
           <div class="form-group">
             <label for="key" class="col-form-label font-weight-bold">Llave privada de la FIEL (.key)</label>
-            <input type="file" class="form-control-file" id="key"
-                   [(ngModel)]="contrato.p_key" name="key" #key="ngModel">
+            <input type="file" class="form-control-file" id="key" (change)="onChange($event, 'p_key')">
           </div>
 
           <div class="form-group">
             <label for="passwd" class="col-form-label font-weight-bold">Contraseña de la FIEL</label>
-            <input type="text" class="form-control" id="passwd" placeholder="Contraseñña"
+            <input type="text" class="form-control" id="passwd" placeholder="Contraseña"
                    [(ngModel)]="contrato.p_passwd" name="passwd" #passwd="ngModel" required>
             <div [hidden]="passwd.valid || passwd.pristine" class="alert alert-danger">
               El password es requerido.
@@ -58,7 +56,7 @@
           <p class="text-info">{{ message }}</p>
         </div>
 
-        <button class="btn btn-masnegocio btn-sm float-right" [disabled]="!clienteForm.form.valid" (click)="firmarContrato()">Firmar</button>
+        <button class="btn btn-masnegocio float-right" [disabled]="!clienteForm.form.valid" (click)="firmarContrato()">Firmar</button>
       </div>
     </div>
 

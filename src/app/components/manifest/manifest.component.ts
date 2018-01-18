@@ -4,6 +4,8 @@ import { AplicativoService } from '../../services/aplicativo.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
 
+declare var SDSgLib_PKCS8: any;
+
 @Component({
   selector: 'app-manifest',
   templateUrl: './manifest.component.html',
@@ -21,6 +23,9 @@ export class ManifestComponent implements OnInit {
   public urlRadtExt: string;
   public contrato: any;
   public eventos: object [];
+
+  public cipheredKey: string;
+  public certX509: string;
 
   constructor( private activatedRoute: ActivatedRoute,
                private _aplicativoService: AplicativoService,
@@ -54,12 +59,28 @@ export class ManifestComponent implements OnInit {
         };
         this.eventos = [
           {
+            url: this.urLanding + 'init',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: { message: 'Iniciando firmado de contrato.' }
+          },
+          {
+            url: this.urLanding + 'firmar',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: { message: 'Firmando Documendo digitalmente.' }
+          },
+          {
             url: this.urLanding + 'finalizar',
             method: 'POST',
             headers: {
               'Content-Type': 'application/json;charset=UTF-8'
             },
-            body: { message: 'Test de servicios.' }
+            body: { message: 'Finalizando proceso de firmado digital.' }
           }
         ];
       })
@@ -94,6 +115,7 @@ export class ManifestComponent implements OnInit {
         file = {
           filename: aux.name,
           filetype: aux.type,
+          array: {},
           value: reader.result.split(',')[1]
         };
         this.contrato[pair] = file;
@@ -109,6 +131,8 @@ export class ManifestComponent implements OnInit {
       this.onProgress = true;
       this.completado = 0;
       this.contrato['usuarios'] = this.strContrato;
+
+      this.procesarArchivos();
 
       this.loopEvents()
         .then( (res) => {
@@ -147,6 +171,27 @@ export class ManifestComponent implements OnInit {
         // location.reload();
       }
     });
+  }
+
+  private procesarArchivos() {
+    const privateKeyBufferString = SDSgLib_PKCS8.arrayBufferToString( this.contrato['p_key']['array'] );
+    const pKey = privateKeyBufferString.replace(/(-----(BEGIN|END) PRIVATE KEY-----|\r\n)/g, '');
+
+    if ( pKey.charAt(0) === 'M' ) {
+      this.cipheredKey = window.atob(pKey);
+    } else {
+      this.cipheredKey = privateKeyBufferString;
+    }
+
+    const certificateBufferString = SDSgLib_PKCS8.arrayBufferToString( this.contrato['p_cer']['array'] );
+    const pCert = certificateBufferString.replace(/(-----(BEGIN|END) CERTIFICATE-----|\r\n)/g, '');
+
+    if ( pCert.charAt(0) === 'M' ) {
+      this.certX509 = window.atob(pCert);
+    } else {
+      this.certX509 = certificateBufferString;
+    }
+    this.contrato['serialNumber'] = this.certX509.substring(15, 35);
   }
 
   private loopEvents = () => {

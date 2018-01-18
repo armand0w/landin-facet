@@ -74,6 +74,7 @@
             </div>
           </div>-->
 
+          <label class="col-form-label font-weight-bold">Tipo de Usuario</label>
           <div class="custom-controls-stacked d-block my-3">
             <label class="custom-control custom-radio">
               <input name="tipo" type="radio" [(ngModel)]="cliente.c_usuario_final" #c_tipo="ngModel" class="custom-control-input" value="S" required>
@@ -157,6 +158,34 @@
               Las transacciones son requeridas.
             </div>
           </div>
+
+          <!--<div class="">
+            <h4 class="card-title">¿Paquetes recurrentes?</h4>
+            <div class="row">
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="cliente.b_recurrente" name="recurrente" #recurrente="ngModel">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Si</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>-->
+
+          <!--<div class="form-group" [hidden]="!cliente.b_recurrente">-->
+          <div class="form-group">
+            <label for="periodo" class="col-form-label font-weight-bold">¿Paquetes recurrentes? (Periodo)</label>
+            <select id="periodo" name="periodo" #periodo="ngModel" [(ngModel)]="cliente.i_periodo" class="form-control" required>
+              <option value="0">NO</option>
+              <option value="1">1 Mes</option>
+              <option value="3">3 Meses</option>
+              <option value="6">6 Meses</option>
+              <option value="12">1 Año</option>
+            </select>
+          </div>
+
         </div>
       </div>
     </div>

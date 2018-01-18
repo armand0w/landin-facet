@@ -27,7 +27,9 @@ export class LandingComponent implements OnInit {
     this._aplicativoService.properties()
       .then( ( prop ) => {
         this.urLanding = prop['url-services'];
+        this.cliente['c_usuario_final'] = 'S';
         this.cliente['i_tipo_timbre'] = 1;
+        this.cliente['i_periodo'] = 0;
         this.cliente['connections'] = {
           references: [
             {
